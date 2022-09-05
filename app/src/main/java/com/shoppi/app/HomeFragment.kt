@@ -27,31 +27,25 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val button = view.findViewById<Button>(R.id.btn_enter_product_detail)
-        button.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_product_detail)
-        }
-
+        val toolBarTitle = view.findViewById<TextView>(R.id.toolbar_home_title)
+        val toolBarIcon = view.findViewById<ImageView>(R.id.toolbar_home_icon)
         val assetLoader = AssetLoader()
         val homeData = assetLoader.getJsonString(requireContext(), "home.json")
 
-        var iconUrl = ""
-        var text = ""
+
 
         if(!homeData.isNullOrEmpty()){
             val jsonObject = JSONObject(homeData)
             val title = jsonObject.getJSONObject("title")
-            text = title.getString("text")
-            iconUrl = title.getString("icon_url")
-            val titleValue = Title(text, iconUrl)
+            val text = title.getString("text")
+            val iconUrl = title.getString("icon_url")
+            toolBarTitle.text = text
+            GlideApp.with(this)
+                .load(iconUrl)
+                .into(toolBarIcon)
         }
 
-        val textview = getView()?.findViewById<TextView>(R.id.home_toolbar_text)
-        textview?.setText(text)
 
-        val imgview = getView()?.findViewById<ImageView>(R.id.home_toolbar_image)
-
-        Glide.with(this).load(iconUrl).into(imgview)
 
     }
 
