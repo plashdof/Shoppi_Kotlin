@@ -24,5 +24,8 @@ class HomeFragment : Fragment() {
         button.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_product_detail)
         }
+
+        val assetLoader = AssetLoader()
+        val homeData = assetLoader.getJsonString(requireContext(), "home.json")
     }
 }
